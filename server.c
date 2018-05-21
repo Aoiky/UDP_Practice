@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 	while (1) 
 	{
 		char recv_buf[1024] = "";//为接收的信息分配内存空间
-		char cli_ip[INET_ADDRSTRLEN] = "";//INET_ADDRSTRLEN：ipv4地址的长度，16位char,以十进制和点进行存储
+		char cli_ip[INET_ADDRSTRLEN] = "";//INET_ADDRSTRLEN：16位char,将ipv4地址以十进制和点进行存储(3*4+3+1=16)
 		int recv_len = 0;
 		struct sockaddr_in client_addr;//客户端socket地址
 		socklen_t client_addr_len = sizeof(client_addr);//socklen_t -->int
