@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 	}
 
 	printf("UDP Server Started!\n");
-	sockfd = socket(AF_INET,SOCK_DGRAM,0);//创建socket，参数1：:协议族；参数2：协议类型；参数3：:描述符
+	sockfd = socket(AF_INET,SOCK_DGRAM,0);//创建socket，参数1：:协议族,AF_INET是IPv4 网络协议的套接字类型；参数2：协议类型；参数3：:描述符
 	if (sockfd < 0) 
 	{
 		perror("socket error");
