@@ -14,38 +14,38 @@
 
 int main(int argc, char *argv[])
 {
-	int sockfd = 0;//½ÓÊÕsocket·µ»ØÖµ£¨ÎÄ¼şÃèÊö·û£©
-	int error_log = 0;//½ÓÊÕbind()·µ»ØÖµ
-	struct sockaddr_in bind_addr;//¶¨ÒåÒ»¸öinternetÏÂµÄÌ×½Ó×ÖµØÖ·
-	unsigned short port = 8000;//¶¨Òå¶Ë¿Ú
+	int sockfd = 0;//æ¥æ”¶socketè¿”å›å€¼ï¼ˆæ–‡ä»¶æè¿°ç¬¦ï¼‰
+	int error_log = 0;//æ¥æ”¶bind()è¿”å›å€¼
+	struct sockaddr_in bind_addr;//å®šä¹‰ä¸€ä¸ªinternetä¸‹çš„å¥—æ¥å­—åœ°å€
+	unsigned short port = 8000;//å®šä¹‰ç«¯å£
 	int opt = 1;
 
-	if (argc > 1) //ÃüÁîĞĞÔËĞĞÊ±¿É´«Ò»¸ö¶Ë¿Ú²ÎÊı£¨×Ö·û´®£©
+	if (argc > 1) //å‘½ä»¤è¡Œè¿è¡Œæ—¶å¯ä¼ ä¸€ä¸ªç«¯å£å‚æ•°ï¼ˆå­—ç¬¦ä¸²ï¼‰
 	{
-		port = atoi(argv[1]);//×Ö·û´®×ª»¯ÎªÕûĞÎ
+		port = atoi(argv[1]);//å­—ç¬¦ä¸²è½¬åŒ–ä¸ºæ•´å½¢
 	}
 
 	printf("UDP Server Started!\n");
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);//´´½¨socket£¬²ÎÊı1£º:Ğ­Òé×å£»²ÎÊı2£ºĞ­ÒéÀàĞÍ£»²ÎÊı3£º:ÃèÊö·û
+	sockfd = socket(AF_INET, SOCK_DGRAM, 0);//åˆ›å»ºsocketï¼Œå‚æ•°1ï¼š:åè®®æ—ï¼›å‚æ•°2ï¼šåè®®ç±»å‹ï¼›å‚æ•°3ï¼š:æè¿°ç¬¦
 	if (sockfd < 0)
 	{
 		perror("socket error");
 		exit(-1);
 	}
 
-	//sockaddr_in±äÁ¿¸³Öµ£º¹²ËÄ²½£¨³õÊ¼»¯µØÖ·¡¢ÉèÖÃµØÖ·×å¡¢ÉèÖÃ¶Ë¿Ú¡¢ÉèÖÃµØÖ·£©
-	bzero(&bind_addr, sizeof(bind_addr));//µØÖ·³õÊ¼»¯£¬bzero()ÄÚ´æÇåÁãº¯Êı
-	bind_addr.sin_family = AF_INET;//µØÖ·×å
-	bind_addr.sin_port = htons(port);//16Î»¶Ë¿ÚºÅ£¬htons()£ºÖ÷»ú×Ö½ÚË³Ğò×ª»»ÎªÍøÂç×Ö½ÚË³Ğò¡¢host to net short£¨16Î»£©
-	bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);//32Î»ipµØÖ·£¨unsigned int£©£¬host to net long£¨32Î»£©
-												  //INADDR_ANY:½ÓÊÕÈÎºÎIP£¨°üÀ¨±¾»ú£©
+	//sockaddr_inå˜é‡èµ‹å€¼ï¼šå…±å››æ­¥ï¼ˆåˆå§‹åŒ–åœ°å€ã€è®¾ç½®åœ°å€æ—ã€è®¾ç½®ç«¯å£ã€è®¾ç½®åœ°å€ï¼‰
+	bzero(&bind_addr, sizeof(bind_addr));//åœ°å€åˆå§‹åŒ–ï¼Œbzero()å†…å­˜æ¸…é›¶å‡½æ•°
+	bind_addr.sin_family = AF_INET;//åœ°å€æ—
+	bind_addr.sin_port = htons(port);//16ä½ç«¯å£å·ï¼Œhtons()ï¼šä¸»æœºå­—èŠ‚é¡ºåºè½¬æ¢ä¸ºç½‘ç»œå­—èŠ‚é¡ºåºã€host to net shortï¼ˆ16ä½ï¼‰
+	bind_addr.sin_addr.s_addr = htonl(INADDR_ANY);//32ä½ipåœ°å€ï¼ˆunsigned intï¼‰ï¼Œhost to net longï¼ˆ32ä½ï¼‰
+												  //INADDR_ANY:æ¥æ”¶ä»»ä½•IPï¼ˆåŒ…æ‹¬æœ¬æœºï¼‰
 
 
-	setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, (char*)&opt, sizeof(opt));
+	setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, (char*)&opt, sizeof(opt));//è®¾ç½®æ’­æŠ¥æ–¹å¼
 
 
 	printf("Bind Server to port %d\n", port);
-	error_log = bind(sockfd, (struct sockaddr*)&bind_addr, sizeof(bind_addr));//ÓĞĞ©ÒÉÎÊ
+	error_log = bind(sockfd, (struct sockaddr*)&bind_addr, sizeof(bind_addr));//æœ‰äº›ç–‘é—®->(struct sockaddr*)&bind_addr
 	if (error_log < 0)
 	{
 		perror("bind error");
@@ -53,22 +53,22 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
 
-	//recvfrom->×èÈû½ÓÊÕ¿Í»§¶ËÊı¾İ->´¦ÀíÇëÇó->sendto
+	//recvfrom->é˜»å¡æ¥æ”¶å®¢æˆ·ç«¯æ•°æ®->å¤„ç†è¯·æ±‚->sendto
 	printf("waiting data from other client...\n");
 	while (1)
 	{
-		char recv_buf[1024] = "";//Îª½ÓÊÕµÄĞÅÏ¢·ÖÅäÄÚ´æ¿Õ¼ä
-		char cli_ip[INET_ADDRSTRLEN] = "";//INET_ADDRSTRLEN£ºipv4µØÖ·µÄ³¤¶È£¬16Î»
+		char recv_buf[1024] = "";//ä¸ºæ¥æ”¶çš„ä¿¡æ¯åˆ†é…å†…å­˜ç©ºé—´
+		char cli_ip[INET_ADDRSTRLEN] = "";//INET_ADDRSTRLENï¼šipv4åœ°å€çš„é•¿åº¦ï¼Œ16ä½
 		int recv_len = 0;
-		struct sockaddr_in client_addr;//¿Í»§¶ËsocketµØÖ·
+		struct sockaddr_in client_addr;//å®¢æˆ·ç«¯socketåœ°å€
 		socklen_t client_addr_len = sizeof(client_addr);//socklen_t -->int
 
-		recv_len = recvfrom(sockfd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr*)&client_addr, &client_addr_len);//½ÓÊÕĞÅÏ¢
+		recv_len = recvfrom(sockfd, recv_buf, sizeof(recv_buf), 0, (struct sockaddr*)&client_addr, &client_addr_len);//æ¥æ”¶ä¿¡æ¯
 
-		inet_ntop(AF_INET, &client_addr.sin_addr, cli_ip, INET_ADDRSTRLEN);//ipµØÖ·ÓÉ¶ş½øÖÆ×ª»¯ÎªÊ®½øÖÆ
+		inet_ntop(AF_INET, &client_addr.sin_addr, cli_ip, INET_ADDRSTRLEN);//ipåœ°å€ç”±äºŒè¿›åˆ¶è½¬åŒ–ä¸ºåè¿›åˆ¶
 		printf("client ip =%s  message:%s\n", cli_ip, recv_buf);
 
-		sendto(sockfd, recv_buf, recv_len, 0, (struct sockaddr*)&client_addr, client_addr_len);//½«½ÓÊÕµ½µÄ×Ö·û´®ÏûÏ¢·µ»Ø¸ø¿Í»§¶Ë
+		sendto(sockfd, recv_buf, recv_len, 0, (struct sockaddr*)&client_addr, client_addr_len);//å°†æ¥æ”¶åˆ°çš„å­—ç¬¦ä¸²æ¶ˆæ¯è¿”å›ç»™å®¢æˆ·ç«¯
 
 	}
 
